@@ -1,0 +1,26 @@
+@startuml
+skinparam classAttributeIconSize 0
+interface RouteStrategy {
+  +planRoute(origin: String, destination: String, distanceKm: double): Route
+}
+class Navigator {
+  -strategy: RouteStrategy
+  +Navigator(strategy: RouteStrategy)
+  +setStrategy(strategy: RouteStrategy): void
+  +planRoute(origin: String, destination: String, distanceKm: double): Route
+}
+class CarStrategy
+class WalkStrategy
+class CycleStrategy
+class Route <<record>>
+class Main <<client>>
+Navigator o--> RouteStrategy : delegates to
+RouteStrategy <|.. CarStrategy
+RouteStrategy <|.. WalkStrategy
+RouteStrategy <|.. CycleStrategy
+RouteStrategy ..> Route : returns
+Main ..> Navigator : configures
+Main ..> CarStrategy
+Main ..> WalkStrategy
+Main ..> CycleStrategy
+@enduml
